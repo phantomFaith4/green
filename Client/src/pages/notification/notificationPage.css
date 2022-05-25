@@ -1,0 +1,28 @@
+.notificationPageDiv{
+    width: 80%;
+    height: 80vh;
+    border: 5px solid #74B49B;
+    border-radius: 25px;
+    background-color: white;
+}
+.notificationPageTitleDiv{
+    font-size: 2em;
+    text-align: center;
+    margin-top: 20px;
+}
+.notificationPageFilterDiv{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    font-size: 20px;
+    margin-top: 20px;
+}
+.notificationsDataDiv{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    overflow-y: scroll;
+    height: 63vh;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}

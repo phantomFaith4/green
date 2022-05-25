@@ -1,0 +1,43 @@
+.widgetComponent{
+    width: 350px;
+    height: 350px;
+    border: 5px solid #74B49B;
+    border-radius: 15px;
+    background-color: white;
+}
+.widgetComponentContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.componentTitleDiv{
+    width: 100%;
+    font-size: 2em;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 20px;
+}
+.componentOperationsDiv{
+    width: 100%;
+    height: 18vh;
+}
+.componentDataDiv{
+    width: 100%;
+    height: 18vh;
+}
+.widgetComponentButtonHolderDiv{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px;
+}
+.widgetComponentSliderHolderDiv{
+    margin: 20px;
+}
+.widgetComponetDataValueSpan{
+    font-size: 5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

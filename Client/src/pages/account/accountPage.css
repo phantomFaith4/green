@@ -1,0 +1,19 @@
+.accountPage{
+    display: flex; 
+    flex-direction: column;
+    position: relative;
+    background-color: #F4F4F4;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.accountPageContainer{
+    width: 94%;
+    height:95vh;
+    flex: 1;
+    top:6vh;
+    position: absolute; 
+    left: 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}

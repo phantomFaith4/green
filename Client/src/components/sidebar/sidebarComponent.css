@@ -1,0 +1,39 @@
+.sidebarComponent{
+    width: 6%;
+    height: 100vh;
+    background-color: #74B49B;
+}
+.sidebarContianer{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    font-size:40px;
+}
+.sidebarPart1{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    margin-top:15px;
+    margin-bottom: 30px;
+}
+.sidebarPart2{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+.sidebarPart3{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+}
+.sidebarIcon{
+    cursor: pointer;
+    color: white;
+    margin-bottom: 30px;
+}

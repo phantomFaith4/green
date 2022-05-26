@@ -28,7 +28,12 @@ const UserSchema = new mongoose.Schema({
     phone:{
         type:String,
     },
-    greenhouse:[]
-});
+    list:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Greenhouse',
+    }],
+},
+{timestamps:true}
+);
 
 module.exports = mongoose.model('User',UserSchema);

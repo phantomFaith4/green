@@ -9,7 +9,7 @@ const NotificationPage = () => {
     <div className='accountPage'>
         <TopbarComponent />
         <SidebarComponent />
-        <div className="accountPageContainer">
+        <div className="accountPageContainer2">
             <div className='notificationPageDiv'>
               <div className='notificationPageTitleDiv'>
                 <span>NOTIFICATIONS</span>

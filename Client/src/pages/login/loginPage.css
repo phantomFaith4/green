@@ -1,0 +1,85 @@
+.login{
+    background-color: #74B49B; 
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.loginFormDiv{
+    width: 550px;
+    height: 550px;
+    background-color: #F6FBF9; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 20px;
+}
+.loginForm{
+    width: 90%;
+    height: 450px;
+}
+.inputEmail, .inputPassword{
+    display: block;
+    width: 95%;
+    height: 50px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    border-radius: 10px;
+    font-size: 20px; 
+    color: #212B27;
+    border: 2px solid #212B27;
+}
+.inputEmail::placeholder , .inputPassword::placeholder{
+    color: #212B27;
+    font-size: 20px;
+}
+.inputEmail[type='text'] , .inputPassword[type='password'] {
+    padding-left: 15px; 
+}
+.inputEmail:focus , .inputPassword:focus{
+    border: 3px solid #212B27;
+}
+.loginButton{
+    display: block;
+    width: 300px;
+    height: 65px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    font-size: 40px;
+    text-align: center;
+    margin:0 auto;
+    display:block;
+    background-color: #74B49B;
+    color: #F6FBF9;
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+    border: 1px solid #212B27;
+}
+.loginButton:active{
+    border: 3px solid #212B27;
+}
+.formTitle{
+    font-size:50px;
+    color: #212B27; 
+    display:block;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 10px;
+}
+.registerLink{
+    display: table;
+    margin: 0 auto;
+    margin-top: 5px;
+    color: #212B27;
+}
+.registerLink2{
+    font-size: 23px;
+    display: table;
+    margin: 0 auto;
+    margin-top: 5px;
+    color: #212B27;
+    cursor: pointer;
+}

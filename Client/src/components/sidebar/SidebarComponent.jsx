@@ -1,8 +1,16 @@
 import React from 'react'
 import './sidebarComponent.css';
-import {Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 const SidebarComponent = () => {
+
+  const navigate = useNavigate();
+
+  const handleLogout = ()=>{
+    JSON.parse(localStorage.getItem('user')) && localStorage.clear();
+    navigate('/login');
+  }
+  
   return (
     <div className='sidebarComponent'>
         <div className="sidebarContianer">
@@ -20,7 +28,7 @@ const SidebarComponent = () => {
           <Link to='/humidity' ><i className="sidebarIcon fas fa-tint"></i></Link>
           </div>
           <div className='sidebarPart3'>
-            <i className="sidebarIcon fas fa-sign-out-alt"></i>
+            <i onClick={handleLogout} className="sidebarIcon fas fa-sign-out-alt"></i>
           </div>
         </div>
     </div>

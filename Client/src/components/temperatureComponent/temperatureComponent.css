@@ -20,11 +20,11 @@
 }
 .componentOperationsDiv{
     width: 100%;
-    height: 18vh;
+    height: 16vh;
 }
 .componentDataDiv{
     width: 100%;
-    height: 18vh;
+    height: 12vh;
 }
 .widgetComponentButtonHolderDiv{
     display: flex;

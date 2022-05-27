@@ -1,18 +1,42 @@
 .greenhouseTable{
-    border: 1px solid red;
+    border: 5px solid  #74B49B;
     border-spacing:0;
+    width:70vw;
+    text-align: center;
+    font-size: 22px;
+    border-radius: 25px;
 }
 th, td {
-    border: 1px solid red;
+    border: 1px solid  #74B49B;
 }
+th:first-child{
+    border-top-left-radius: 15px;
+}
+th:last-child{
+    border-top-right-radius: 15px;
+}
+.greenhouseTable:last-child{
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
 .tableDiv{
    margin-top: 20px;
    overflow-y: auto;
 }
 .greenhouseSettingsComponent{
-    border: 2px solid blue;
     width: 80vw;
     height: 60vh;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+.greenhouseSettingsIconDelete{
+    color: #D32626;
+    cursor: pointer;
+}
+.NewGreenhouseDiv{
+    cursor: pointer;
 }

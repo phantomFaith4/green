@@ -18,7 +18,6 @@ const HomePage = () => {
 
   const getName = async (location) =>{
     setLocation(location);
-    console.log("Home=>",location);
   } 
   useEffect(()=>{
     const userId = JSON.parse(localStorage.getItem('user'))._id ;
@@ -29,6 +28,7 @@ const HomePage = () => {
     };
     getFirstGreenhouse();
   },[]);
+  
 return (
     <div className='homePage'>
         <TopbarComponent getData={getName} />

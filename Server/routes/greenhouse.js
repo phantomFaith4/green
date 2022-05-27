@@ -10,6 +10,17 @@ router.get('/all', async(req,res)=>{
         res.status(500).json(err);
     }
 });
+
+router.get('/all/:id', async(req,res)=>{
+    try{
+        const userId = req.params.id;
+        const greenhouse = await Greenhouse.find({owner:userId});
+        res.status(200).json(greenhouse);
+    }catch(err){
+        res.status(500).json(err);
+    }
+});
+
 router.get('/:id', async(req,res)=>{
     try{
         const greenhouseId = req.params.id;
@@ -19,6 +30,7 @@ router.get('/:id', async(req,res)=>{
         res.status(500).json(err);
     }
 });
+
 router.get('/name/:greenName', async(req,res)=>{
     try{
         const greenName = req.params.greenName;
@@ -32,33 +44,33 @@ router.post('/:owner/new', async(req,res)=>{
     try{
         const newGreenhouse = new Greenhouse({
             greenhouse:req.body.greenhouse,
-            content:req.body.content,
             location:req.body.location,
+            content:req.body.content,
+            desc:req.body.desc,
+            size:req.body.size,
             owner:req.params.owner,
         });
         const user = await User.findById(req.params.owner);
-        newGreenhouse.save(async function(err){
-            user.list.push(newGreenhouse);
-            user.save(function(err){
-            });
-        });
-        res.status(200).json(newGreenhouse);
+        const greenhouse = await Greenhouse.findOne({greenhouse:req.body.greenhouse});
+        if(greenhouse){res.status(409).json("Duplicate data")}else{
+            newGreenhouse.save(async function(err){
+                user.list.push(newGreenhouse);
+                user.save(function(err){
+                });
+            }); 
+            res.status(200).json(newGreenhouse);
+        }
     }catch(err){ 
         res.status(500).json(err);
     }
 });
-//db.menus.update({menusName : "333"},{$pull : { children : { menusName : "333" }}})
+
+//Update temperature element of greenhouse
 router.put('/temp/:id', async(req,res)=>{
     try{
         const greenhouseId = req.params.id;
-        const update = {
-            temp:req.body.temperature,
-            auto:req.body.automatic,
-            time:req.body.time,
-            date:req.body.date,
-        }
         const green = await Greenhouse.updateOne({_id:req.params.id},{
-            $set:{'temperature.temp':req.body.temp,'temperature.auto':req.body.automatic,
+            $set:{'temperature.temp':req.body.temp,'temperature.auto':req.body.auto,
             'temperature.time':req.body.time,'temperature.date':req.body.date}});
         res.status(200).json(green);
     }catch(err){

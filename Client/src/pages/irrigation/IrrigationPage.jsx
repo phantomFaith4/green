@@ -8,7 +8,17 @@ const IrrigationPage = () => {
         <TopbarComponent />
         <SidebarComponent />
         <div className="accountPageContainer">
-            <h1>Test irrigatonPage</h1>
+            <div className='leftPartPage'>
+              <div className='leftUpDiv'>
+                <h1>Up</h1>
+              </div>
+              <div className='leftDownDiv'>
+                <h1>Down</h1>
+              </div>
+            </div>
+            <div className='rightPartPage'>
+              <h1>Right</h1>
+            </div>
         </div>
     </div>
   )

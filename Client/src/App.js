@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import HomePage from "./pages/home/HomePage";
 import LoginPage from './pages/login/LoginPage';
 import AccountPage from "./pages/account/AccountPage";
@@ -11,23 +11,27 @@ import HumidityPage from './pages/humidity/HumidityPage';
 import RegisterPage from "./pages/register/RegisterPage";
 import {useEffect} from 'react';
 import ErrorPage from "./pages/error/ErrorPage";
+import axios from "axios";
 import {
   BrowserRouter,
-  Routes,
+  Routes, 
   Route,
 } from "react-router-dom";
 
 function App() {
-  useEffect(()=>{
-    const fetch = async ()=>{
-      try{
 
-      }catch(err){
-        
-      }
+
+  const [defaultLocation,setDefaultLocation] = useState('');
+  useEffect(()=>{
+      const userId = JSON.parse(localStorage.getItem('user'))._id ;
+      const getFirstGreenhouse = async ()=>{
+      const res = await axios.get(`/api/user/${userId}`)
+      const res2 = await axios.get(`/api/greenhouse/${res.data.list[0]}`);
+      setDefaultLocation(res2.data.greenhouse);
     };
-    fetch();
-  });
+    getFirstGreenhouse();
+  },[]);
+
   return ( 
     <div className="App">
       <BrowserRouter>
@@ -37,10 +41,10 @@ function App() {
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/account' element={<AccountPage />} />
           <Route path='/notification' element={<NotificationPage />} />
-          <Route path='/temperature' element={<TemperaturePage />} />
-          <Route path='/irrigation' element={<IrrigationPage />} />
-          <Route path='/light' element={<LightPage />} />
-          <Route path='/co2' element={<CO2Page />} />
+          <Route path='/temperature' element={<TemperaturePage df={defaultLocation}/>} />
+          <Route path='/irrigation' element={<IrrigationPage df={defaultLocation}/>} />
+          <Route path='/light' element={<LightPage df={defaultLocation}/>} />
+          <Route path='/co2' element={<CO2Page df={defaultLocation}/>} />
           <Route path='/humidity' element={<HumidityPage />} />
           <Route path='*' element={<ErrorPage />} /> 
         </Routes>

@@ -35,11 +35,11 @@ return (
         <Sidebar />
         <div className="homePageContainer">
             <TemperatureComponent loc={[location,defaultLocation]} />
-            <WaterComponent />
+            <WaterComponent loc={[location,defaultLocation]}/>
             <NotificationComponent />
-            <HumidityComponent />
-            <LightComponent />
-            <CO2Component />
+            <HumidityComponent loc={[location,defaultLocation]}/>
+            <LightComponent loc={[location,defaultLocation]}/>
+            <CO2Component loc={[location,defaultLocation]}/>
         </div>
     </div>
   )

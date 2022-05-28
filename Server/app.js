@@ -6,7 +6,7 @@ const PORT = 8000;
 const authRoute = require('./routes/auth');
 const greenhouseRoute = require('./routes/greenhouse');
 const userRoute = require('./routes/user');
-
+const weatherRoute = require('./routes/weather');
 
 const app = express();
 app.use(express.json());
@@ -23,6 +23,7 @@ mongoose
 app.use('/api/auth',authRoute);
 app.use('/api/greenhouse',greenhouseRoute); 
 app.use('/api/user/',userRoute);
+app.use('/api/weather',weatherRoute);
 
 
 app.listen(PORT,()=>{

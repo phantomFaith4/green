@@ -1,0 +1,61 @@
+.accountPageContainer{
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.leftPartPage{
+    flex: 1;
+    height: 95vh;
+    border: 2px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.rightPartPage{
+    flex: 1;
+    height: 95vh;
+    border: 2px solid blue;
+}
+.leftUpDiv{
+    border: 2px solid purple;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.leftDownDiv{
+    border: 2px solid seagreen;
+    width: 100%;
+    flex: 1;
+}
+.temperaturePageLeftDown{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.temperaturePageOperationsDiv{
+    width: 75%;
+    height: 40vh;
+    background-color: #74B49B;
+    border-radius: 25px;
+    border: 5px solid #062743 ;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+}
+.temperaturePageOperationsDiv > div{
+   
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.temperaturePageWidgetTitle{
+    text-align: center;
+    font-size: 25px;
+}
+.temperaturePageDataDiv{
+    text-align: center;
+    font-size: 75px;
+}

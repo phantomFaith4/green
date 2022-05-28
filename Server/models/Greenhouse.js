@@ -35,7 +35,7 @@ const GreenhouseSchema = new mongoose.Schema({
     },
     co2:{
         fan1:{type:Boolean,default:false},
-        fan1:{type:Boolean,default:false},
+        fan2:{type:Boolean,default:false},
         speed:{type:Number},
         run:{type:Boolean,default:false},
         auto:{type:Boolean,default:false},

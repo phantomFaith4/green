@@ -57,9 +57,14 @@ const AccountSettingsComponent = () => {
         <div className="accountSettingsComponentContainer">
           <div className="profileImageDiv">
             <img className='profileImage' src={'https://qph.cf2.quoracdn.net/main-qimg-965b11ec95106e64d37f5c380802c305-lq'} alt='' />
-            <div className='editIconDiv'>
-              <i className="fa-solid fa-pen"></i>
-            </div>
+            <form>
+              <label for="profileImg">
+                <div className='editIconDiv'>
+                  <i className="fa-solid fa-pen"></i>
+                  <input type="file" id="profileImg" name="profileImg" accept="image/png, image/jpeg" />
+                </div>
+              </label>
+            </form>
           </div>
           <div className='userInfoDiv'>
             <div>

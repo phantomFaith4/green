@@ -69,7 +69,7 @@ router.post('/:owner/new', async(req,res)=>{
 router.put('/temp/:id', async(req,res)=>{
     try{
         const greenhouseId = req.params.id;
-        const green = await Greenhouse.updateOne({_id:req.params.id},{
+        const green = await Greenhouse.updateOne({_id:greenhouseId},{
             $set:{'temperature.temp':req.body.temp,'temperature.auto':req.body.auto,
             'temperature.time':req.body.time,'temperature.date':req.body.date}});
         res.status(200).json(green);
@@ -81,10 +81,10 @@ router.put('/temp/:id', async(req,res)=>{
 router.put('/irrigation/:id', async(req,res)=>{
     try{
         const greenhouseId = req.params.id;
-        const green = await Greenhouse.updateOne({_id:req.params.id},{
+        const green = await Greenhouse.updateOne({_id:greenhouseId},{
             $set:{'water.percentage':req.body.percentage,'water.amount':req.body.amount,
         'water.watering':req.body.watering,'water.auto':req.body.auto,
-        'water.time':req.body.time,'water.date':req.body.date}});
+        'water.fertilizer':req.body.fertilizer,'water.time':req.body.time,'water.date':req.body.date}});
         res.status(200).json(green);
     }catch(err){
         res.status(500).json(err);
@@ -94,7 +94,7 @@ router.put('/irrigation/:id', async(req,res)=>{
 router.put('/co2/:id', async(req,res)=>{
     try{
         const greenhouseId = req.params.id;
-        const green = await Greenhouse.updateOne({_id:req.params.id},{
+        const green = await Greenhouse.updateOne({_id:greenhouseId},{
             $set:{'co2.fan1':req.body.fan1,'co2.fan2':req.body.fan2,
             'co2.speed':req.body.speed,'co2.run':req.body.run, 
             'co2.auto':req.body.auto,'co2.time':req.body.time,'co2.date':req.body.date}});
@@ -107,7 +107,7 @@ router.put('/co2/:id', async(req,res)=>{
 router.put('/light/:id', async(req,res)=>{
     try{
         const greenhouseId = req.params.id;
-        const green = await Greenhouse.updateOne({_id:req.params.id},{
+        const green = await Greenhouse.updateOne({_id:greenhouseId},{
             $set:{'light.intensity':req.body.intensity,'light.run':req.body.run,
             'light.auto':req.body.auto,'light.time':req.body.time,'light.date':req.body.date}});
         res.status(200).json(green);

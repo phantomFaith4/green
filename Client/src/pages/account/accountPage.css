@@ -17,6 +17,10 @@
     align-items: flex-start;
     justify-content: space-around;
 }
+.accPageContainer{
+    top:2vh;
+    position: absolute; 
+}
 .accountComponents{
     background-color: white;
     border: 5px solid #74B49B;

@@ -19,19 +19,6 @@ import {
 } from "react-router-dom";
 
 function App() {
-
-
-  const [defaultLocation,setDefaultLocation] = useState('');
-  useEffect(()=>{
-      const userId = JSON.parse(localStorage.getItem('user'))._id ;
-      const getFirstGreenhouse = async ()=>{
-      const res = await axios.get(`/api/user/${userId}`)
-      const res2 = await axios.get(`/api/greenhouse/${res.data.list[0]}`);
-      setDefaultLocation(res2.data.greenhouse);
-    };
-    getFirstGreenhouse();
-  },[]);
-
   return ( 
     <div className="App">
       <BrowserRouter>
@@ -41,10 +28,10 @@ function App() {
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/account' element={<AccountPage />} />
           <Route path='/notification' element={<NotificationPage />} />
-          <Route path='/temperature' element={<TemperaturePage df={defaultLocation}/>} />
-          <Route path='/irrigation' element={<IrrigationPage df={defaultLocation}/>} />
-          <Route path='/light' element={<LightPage df={defaultLocation}/>} />
-          <Route path='/co2' element={<CO2Page df={defaultLocation}/>} />
+          <Route path='/temperature' element={<TemperaturePage />} />
+          <Route path='/irrigation' element={<IrrigationPage />} />
+          <Route path='/light' element={<LightPage />} />
+          <Route path='/co2' element={<CO2Page />} />
           <Route path='/humidity' element={<HumidityPage />} />
           <Route path='*' element={<ErrorPage />} /> 
         </Routes>

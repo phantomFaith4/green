@@ -21,7 +21,7 @@ const TopbarComponent = (props) => {
   return (
     <div className='topbarComponent'>
         <div className="topbarContainer">
-          <select onChange={(e)=>props.getData(e.target.value)} className="custom-select">
+          <select onChange={(e)=>props.getData(e.target.value,e.target.selectedIndex)} className="custom-select">
             {
                 greenhouse.map(g=>
                   g.owner === JSON.parse(localStorage.getItem('user'))._id && 

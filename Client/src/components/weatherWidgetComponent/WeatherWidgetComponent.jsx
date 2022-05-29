@@ -16,12 +16,15 @@ const WeatherWidgetComponent = ({loc}) => {
       const time = today.getHours() + ":" + today.getMinutes();
       setDateTime({date:date,time:time});
     }
-
+    const [weather,setWeather] = useState({});
     useEffect(()=>{
+      console.log("Lokacija=>",loc);
       getDateTime();
       const fetch = async ()=>{
         try{
-          const res = await axios.get(`/api/weather/${loc}`)
+          const res = await axios.get(`/api/weather/${loc}`);
+          setWeather(res.data);
+          console.log("weatherData=>",res.data);
         }catch(err){
           console.log("ErrorFetchingWeatherData",err);
         }
@@ -32,12 +35,12 @@ const WeatherWidgetComponent = ({loc}) => {
   return (
     <div className='weatherWidgetCompoent'>
         <div className='leftWeatherDiv'>
-          <span>{'33'} C°</span>
+          <span>{weather.main ? Math.round(weather.main.temp) : 'NaN'} C°</span>
         </div>
         <div className='rightWeatherDiv'>
           <span><i class="timeIcon fa-solid fa-clock"></i> {dateTime.date} {dateTime.time}</span>
-          <span><i className="locationIcon fa-solid fa-location-dot"></i>Zenica</span>
-          <span> <i className="humidityIcon fa-solid fa-droplet"></i>33%</span>
+          <span><i className="locationIcon fa-solid fa-location-dot"></i>{loc}</span>
+          <span> <i className="humidityIcon fa-solid fa-droplet"></i>{weather.main ? weather.main.humidity : 'NaN'}%</span>
         </div>
     </div>
   )

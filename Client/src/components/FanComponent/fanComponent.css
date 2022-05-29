@@ -1,0 +1,32 @@
+@keyframes fullrotate{ 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+div.fan{
+	position: relative; width: 150px; height: 150px; 
+	animation: fullrotate 1s linear infinite; animation-play-state: paused;
+}
+div.fan.spin{ animation: fullrotate 1s linear infinite; display: inline-block; }
+div.fan.pause{ animation-play-state: paused; }
+div.fan:before{
+	position: absolute; top: 30%; right: 30%; left: 30%; bottom: 30%; background: gray; border: white solid 1px;
+	content: ""; z-index: 1; border-style: outset; border-radius: 100%;
+}
+div.fan:after{
+	position: absolute; top: 37.5%; right: 37.5%; left: 37.5%; bottom: 37.5%; background: yellow; border: transparent solid 1px;
+	content: ""; z-index: 1; border-radius: 100%;
+}
+div.fan div.fan-top{
+	position: absolute; top: 0; left: 35%; right: 35%; bottom: 50%; background: gray; border-radius: 100%;
+	border: 1px white solid;
+}
+div.fan div.fan-right{
+	position: absolute; top: 35%; left: 50%; right: 0; bottom: 35%; background: gray; border-radius: 100%;
+	border: 1px white solid;
+}
+div.fan div.fan-bottom{
+	position: absolute; bottom: 0; left: 35%; right: 35%; top: 50%; background: gray; border-radius: 100%;
+	border: 1px white solid;
+}
+div.fan div.fan-left{
+	position: absolute; left: 0; top: 35%; bottom: 35%; right: 50%; background: gray; border-radius: 100%;
+	border: 1px white solid;
+}

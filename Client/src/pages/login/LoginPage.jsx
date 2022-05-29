@@ -3,9 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import './loginPage.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
+
 const LoginPage = () => {
   const [username,setUsername] = useState('');
   const [password,setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) =>{
@@ -19,10 +22,16 @@ const LoginPage = () => {
           localStorage.setItem('user',JSON.stringify(res.data));
           navigate('/');
       }catch(err){
-        console.log("Submit Error=>",err);
+        setErrorMessage("Username or password are wrong!");
+        setTimeout(()=> {
+          setErrorMessage()
+        }, 3000);
       }
     }else{
-
+      setErrorMessage("Username or password field are empty. You need to enter username and password to enter app!");
+        setTimeout(()=> {
+          setErrorMessage()
+        }, 3000);
     }
   }
   useEffect(()=>{
@@ -39,6 +48,7 @@ const LoginPage = () => {
                 <span className='registerLink'>Dont have account? </span>
                 <Link to='/register'><span className='registerLink2'>REGISTER </span></Link>
             </form>
+          {errorMessage && <Alert variant="filled" severity="error">{errorMessage}</Alert>  }
         </div>
     </div>
   )

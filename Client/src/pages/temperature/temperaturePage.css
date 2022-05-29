@@ -1,13 +1,16 @@
 .accountPageContainer{
-    border: 2px solid black;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+.temperaturePageButtonDiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .leftPartPage{
     flex: 1;
     height: 95vh;
-    border: 2px solid red;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -19,7 +22,6 @@
     border: 2px solid blue;
 }
 .leftUpDiv{
-    border: 2px solid purple;
     width: 100%;
     flex: 1;
     display: flex;
@@ -27,7 +29,6 @@
     justify-content: center;
 }
 .leftDownDiv{
-    border: 2px solid seagreen;
     width: 100%;
     flex: 1;
 }
@@ -58,4 +59,13 @@
 .temperaturePageDataDiv{
     text-align: center;
     font-size: 75px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.temperaturePageDataSpan2{
+    font-size: 50px;
+}
+.temperaturePageDataSpan1{
+    font-size: 16px;
 }

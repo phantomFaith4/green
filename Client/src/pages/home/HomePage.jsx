@@ -16,7 +16,7 @@ const HomePage = () => {
   const [location, setLocation] = useState('');
   const [defaultLocation,setDefaultLocation] = useState('');
 
-  const getName = async (location) =>{
+  const getName = async (location,index) =>{
     setLocation(location);
   } 
   useEffect(()=>{

@@ -2,23 +2,28 @@ import React from 'react'
 import Button from '@mui/material/Button';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
 
 const LightComponent = ({loc}) => {
+
+  const [errorMessage, setErrorMessage] = useState('');
   const [greenhouse,setGreenhouse] = useState();
   const [counter,setCounter] = useState(0);
-
   const [light, setLight] = useState({
     intensity:'NaN',
     run:false,
     auto:false,
   });
-
   const updateLightFromWidgetRun = async ()=>{
     try{
       const res = await axios.put(`/api/greenhouse/light/${greenhouse._id}`,{
         run:!light.run,
       })
       setCounter(counter+1);
+      setErrorMessage(`Lighting switched to: ${!light.run ? 'ON' : 'OFF'}`);
+      setTimeout(()=> {
+        setErrorMessage()
+      }, 3000);
     }catch(err){
       console.log("LightWidgetUpdateRun",err);
     }
@@ -29,6 +34,10 @@ const LightComponent = ({loc}) => {
         auto:!light.auto,
       })
       setCounter(counter+1);
+      setErrorMessage(`Automatic lighting regulation switched to: ${!light.auto ? 'ON' : 'OFF'}`);
+      setTimeout(()=> {
+        setErrorMessage()
+      }, 3000);
     }catch(err){
       console.log("LightWidgetUpdateRun",err);
     }
@@ -61,6 +70,7 @@ const LightComponent = ({loc}) => {
               <span className='widgetComponetDataValueSpan'>{light.intensity} %</span>
             </div>
         </div>
+        {errorMessage && <Alert variant="filled" severity="success">{errorMessage}</Alert>  }
     </div>
   )
 }

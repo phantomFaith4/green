@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Slider from '@mui/material/Slider';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
 
 const TemperatureComponent = ({loc}) => {
   
@@ -14,6 +15,7 @@ const TemperatureComponent = ({loc}) => {
   const [value,setValue] = useState(0);
   const [greenhouse,setGreenhouse] = useState();
   const [counter,setCounter] = useState(0);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const updateTemperatureFromWidget = async ()=>{
     try{
@@ -24,6 +26,10 @@ const TemperatureComponent = ({loc}) => {
       console.log("ErrorUpdatingTemperatureFromWidget=>",err);
     }
     setCounter(counter+1);
+    setErrorMessage(`Temperature updated to: ${value} C°`);
+      setTimeout(()=> {
+        setErrorMessage()
+      }, 3000);
   };
   const updateTemperatureFromWidget2 = async ()=>{
     try{
@@ -34,6 +40,10 @@ const TemperatureComponent = ({loc}) => {
       console.log("ErrorOnClickButton=>",err);
     }
     setCounter(counter+1);
+    setErrorMessage(`Automatic temperature regulation switched to: ${!temperature.auto ? 'ON' : 'OFF'}`);
+      setTimeout(()=> {
+        setErrorMessage()
+      }, 3000);
   };
   const handleChange = (event, newValue)=>{
     setValue(newValue);
@@ -68,6 +78,7 @@ const TemperatureComponent = ({loc}) => {
               <span className='widgetComponetDataValueSpan'>{temperature.temp} °C</span>
             </div>
         </div>
+        {errorMessage && <Alert variant="filled" severity="success">{errorMessage}</Alert>  }
     </div>
   )
 }

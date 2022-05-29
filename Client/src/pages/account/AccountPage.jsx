@@ -47,7 +47,7 @@ const AccountPage = () => {
     <div className='accountPage'>
         <TopbarComponent />
         <SidebarComponent />
-        <div className="accountPageContainer">
+        <div className="accPageContainer accountPageContainer ">
           <div className="accountComponents">
             <div className='tabHolder'>
               <div className='tabsButtonDiv'>

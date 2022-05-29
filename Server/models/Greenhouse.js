@@ -18,7 +18,7 @@ const GreenhouseSchema = new mongoose.Schema({
     },
     size:{
         type:Number,
-    },
+    }, 
     temperature:{
         temp:{type:Number,},
         auto:{type:Boolean, default:false,},
@@ -30,6 +30,7 @@ const GreenhouseSchema = new mongoose.Schema({
         amount:{type:Number,},
         watering:{type:Boolean,default:false},
         auto:{type:Boolean,default:false},
+        fertilizer:{type:Boolean,default:false},
         time:{type:String,},
         date:{type:String,},
     },

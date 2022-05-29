@@ -1,0 +1,12 @@
+.waterSlider{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.waterData{
+    display: flex;
+    flex-direction: column;
+}
+.spanWaterData{
+    font-size: 25px;
+}

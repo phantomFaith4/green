@@ -2,9 +2,11 @@ import React from 'react'
 import Button from '@mui/material/Button';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
-
+import Alert from '@mui/material/Alert';
 
 const WaterComponent = ({loc}) => {
+
+  const [errorMessage, setErrorMessage] = useState('');
   const [greenhouse,setGreenhouse] = useState();
   const [irrigation,setIrrigation] = useState({
     percentage:'NaN',
@@ -18,7 +20,11 @@ const WaterComponent = ({loc}) => {
       const res = await axios.put(`/api/greenhouse/irrigation/${greenhouse._id}`,{
         watering:!irrigation.watering,
       });
-      setCounter(counter+1);
+      setCounter(counter+1);  
+      setErrorMessage(`Irrigation system switched: ${!irrigation.watering ? 'ON' : 'OFF'}`);
+      setTimeout(()=> {
+        setErrorMessage()
+      }, 3000);
     }catch(err){
       console.log("ErrodUpdatingIrrigationFromWidget",err);
     }
@@ -29,6 +35,10 @@ const WaterComponent = ({loc}) => {
         auto:!irrigation.auto,
       });
       setCounter(counter+1);
+      setErrorMessage(`Automatic irrigation system switched: ${!irrigation.auto ? 'ON' : 'OFF'}`);
+      setTimeout(()=> {
+        setErrorMessage()
+      }, 3000);
     }catch(err){
       console.log("ErrodUpdatingIrrigationFromWidget",err);
     }
@@ -38,7 +48,6 @@ const WaterComponent = ({loc}) => {
         const res = await axios.get(`/api/greenhouse/name/${loc[0].length > 0  ? loc[0] : loc[1]}`).then(function (res) {
           setGreenhouse(res.data);
           setIrrigation(res.data.water);
-          console.log("IRRIGATION",res.data);
         }).catch(function (err) {
           console.log("IrrigationWidgetFetchingError=>",err);
         })
@@ -62,6 +71,7 @@ const WaterComponent = ({loc}) => {
               <span className='widgetComponetDataValueSpan'>{irrigation.percentage} %</span>
             </div>
         </div>
+        {errorMessage && <Alert variant="filled" severity="success">{errorMessage}</Alert>  }
     </div>
   )
 }

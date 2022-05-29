@@ -8,25 +8,21 @@ import Slider from '@mui/material/Slider';
 import { useEffect,useState } from 'react';
 import axios from 'axios';
 
+const TemperaturePage = () => {
 
-const TemperaturePage = ({df}) => {
-
-  const [time, setTime] = useState('12:34pm')
   const [location, setLocation] = useState('');
-  const [greenhouse,setGreenhouse] = useState();
+  const [index, setIndex] = useState(0);
+  const getName = async (location,index) =>{
+    setLocation(location);
+    setIndex(index)
+  }
+  const [greenhouse,setGreenhouse] = useState([]);
   const [counter,setCounter] = useState(0);
   const [value,setValue] = useState(0)
   const [auto,setAuto] = useState(false);
-  const [temperature,setTemperature] = useState({
-    temp:'NaN',
-    auto:false,
-    time:'',
-    date:'',
-  }); 
- const getName = async (location) =>{setLocation(location);}
   const updateTemperatureFromPage = async ()=>{
     try{
-      const res = await axios.put(`/api/greenhouse/temp/${greenhouse._id}`,{
+      const res = await axios.put(`/api/greenhouse/temp/${greenhouse[index]._id}`,{
         temp:value,
         auto:auto,
         time:'',
@@ -41,18 +37,18 @@ const TemperaturePage = ({df}) => {
   const handleButton = ()=>{auto ? setAuto(false) : setAuto(true);}
   useEffect(()=>{
     const fetch = async ()=>{
-      await axios.get(`/api/greenhouse/name/${location.length > 0  ? location : df}`).then(function (res) {
-         setGreenhouse(res.data);
-         setTemperature(res.data.temperature);
-         setValue(res.data.temperature.temp);
-         setAuto(res.data.temperature.auto);
+      await axios.get(`/api/greenhouse/all/${JSON.parse(localStorage.getItem('user'))._id}`).then(function (res) {
+        console.log(res.data);
+        setGreenhouse(res.data);
+        setValue(res.data[index].temperature.temp);
+        setAuto(res.data[index].temperature.auto)
+        console.log("irrigationBoy=>",res.data);
        }).catch(function (err) {
          console.log("TempWidgetFetchingError",err);
        })
      };  
- fetch();
-  },[df,counter]);
-
+  fetch();
+  },[counter]);
   return (
     <div className='accountPage'>
         <TopbarComponent getData={getName}/>
@@ -71,7 +67,8 @@ const TemperaturePage = ({df}) => {
                     <Button onClick={handleButton} variant="contained">AUTO {auto ? 'TRUE' : 'FALSE'}</Button>
                   </div>
                   <div className='temperaturePageDataDiv'>
-                    <span>{temperature.temp} C°</span>
+                    <span className='temperaturePageDataSpan1'>Temperature inside greenhouse</span>
+                    <span className='temperaturePageDataSpan2'>{value} C°</span>
                   </div>
                   <div className='temperaturePageSaveButtonDiv'>
                     <Button onClick={updateTemperatureFromPage} variant="contained">SAVE</Button>
@@ -79,7 +76,7 @@ const TemperaturePage = ({df}) => {
                 </div>
               </div>
               <div className='leftDownDiv temperaturePageLeftDown'>
-               
+                <WeatherWidgetComponent loc={greenhouse[index] ? greenhouse[index].location : 'Sarajevo'}/>
               </div>
             </div>
             <div className='rightPartPage'>

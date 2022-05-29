@@ -2,10 +2,11 @@ import React from 'react'
 import Button from '@mui/material/Button';
 import { useEffect,useState } from 'react';
 import axios from 'axios';
-
+import Alert from '@mui/material/Alert';
 
 const CO2Component = ({loc}) => {
 
+  const [errorMessage, setErrorMessage] = useState('');
   const [greenhouse,setGreenhouse] = useState();
   const [counter,setCounter] = useState(0);
   const [CO2,setCO2] = useState({
@@ -22,6 +23,10 @@ const CO2Component = ({loc}) => {
         fan2: !CO2.fan2,
       });
       setCounter(counter+1);
+      setErrorMessage(`CO2 fans switched : ${!CO2.run ? 'ON' : 'OFF'}`);
+      setTimeout(()=> {
+        setErrorMessage()
+      }, 3000);
     }catch(err){
       console.log("CO2WidgetUpdateErrorRun",err);
     }
@@ -32,6 +37,10 @@ const CO2Component = ({loc}) => {
         auto:!CO2.auto,
       });
       setCounter(counter+1);
+      setErrorMessage(`Automatic CO2 regulation switched to: ${!CO2.auto ? 'ON' : 'OFF'}`);
+      setTimeout(()=> {
+        setErrorMessage()
+      }, 3000);
     }catch(err){
       console.log("CO2WidgetUpdateErrorAuto",err);
     }
@@ -65,6 +74,7 @@ const CO2Component = ({loc}) => {
               <span className='widgetComponetDataValueSpan'>{'600'} PPM</span>
             </div>
         </div>
+      {errorMessage && <Alert variant="filled" severity="success">{errorMessage}</Alert>  }
     </div>
     </div>
   )

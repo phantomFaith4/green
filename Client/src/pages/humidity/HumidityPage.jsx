@@ -8,7 +8,7 @@ const HumidityPage = () => {
         <TopbarComponent />
         <SidebarComponent />
         <div className="accountPageContainer">
-            <h1>Test humidityPage</h1>
+            <h1>Humidity Page</h1>
         </div>
     </div>
   )

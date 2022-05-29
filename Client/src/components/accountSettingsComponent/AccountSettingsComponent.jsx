@@ -19,7 +19,7 @@ const AccountSettingsComponent = () => {
   const [email,setEmail] = useState();
   const [phone,setPhone] = useState();
   const [user,setUser] = useState({});
-
+  const [file,setFile] = useState(null);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -51,7 +51,17 @@ const AccountSettingsComponent = () => {
       }
     }
     fetch()
-  },[open])
+  },[open,]);
+  
+  const onImgUpload = async(e) => {
+    const data = new FormData();
+    const filename = Date.now()+ e.target.files[0].name;
+    data.append("name",filename);
+    data.append("file",e.target.files[0]);
+    console.log("DataTest=>",data);
+  }
+
+
   return (
     <div className='accountSettingsComponent'>
         <div className="accountSettingsComponentContainer">
@@ -61,7 +71,7 @@ const AccountSettingsComponent = () => {
               <label for="profileImg">
                 <div className='editIconDiv'>
                   <i className="fa-solid fa-pen"></i>
-                  <input type="file" id="profileImg" name="profileImg" accept="image/png, image/jpeg" />
+                  <input onChange={onImgUpload} type="file" id="profileImg" name="profileImg" accept="image/png, image/jpeg" />
                 </div>
               </label>
             </form>

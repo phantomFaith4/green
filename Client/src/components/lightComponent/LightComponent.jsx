@@ -3,9 +3,11 @@ import Button from '@mui/material/Button';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
+import LoadingComponent from '../../components/loadingComponent/LoadingComponent';
 
 const LightComponent = ({loc}) => {
 
+  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [greenhouse,setGreenhouse] = useState();
   const [counter,setCounter] = useState(0);
@@ -47,6 +49,7 @@ const LightComponent = ({loc}) => {
       await axios.get(`/api/greenhouse/name/${loc[0].length > 0  ? loc[0] : loc[1]}`).then(function (res) {
         setGreenhouse(res.data);
         setLight(res.data.light);
+        setLoading(true);
       }).catch(function (err) {
         console.log("LightWidgetFetchingError",err);
       })
@@ -56,14 +59,18 @@ const LightComponent = ({loc}) => {
 
   return (
     <div className='widgetComponent'>
-        <div className="widgetComponentContainer">
+      {
+        loading ?
+        (
+          <>
+          <div className="widgetComponentContainer">
             <div className='componentTitleDiv'>
               <span>LIGHTS</span>
             </div>
             <div className='componentOperationsDiv'>
               <div className='widgetComponentButtonHolderDiv'>
-                <Button onClick={updateLightFromWidgetRun} variant="contained">TURN {light.run ? 'TRUE' : 'FALSE'}</Button>
-                <Button onClick={updateLightFromWidgetAuto} variant="contained">AUTO {light.auto ? 'TRUE' : 'FALSE'}</Button>
+                <Button onClick={updateLightFromWidgetRun} variant="contained">TURN {light.run ? 'ON' : 'OFF'}</Button>
+                <Button onClick={updateLightFromWidgetAuto} variant="contained">AUTO {light.auto ? 'ON' : 'OFF'}</Button>
               </div>
             </div>
             <div className='componentDataDiv'>
@@ -71,6 +78,11 @@ const LightComponent = ({loc}) => {
             </div>
         </div>
         {errorMessage && <Alert variant="filled" severity="success">{errorMessage}</Alert>  }
+          </>
+        )
+        :
+        (<div className='loadingComponentDiv'><LoadingComponent /></div>)
+      }
     </div>
   )
 }

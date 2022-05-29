@@ -5,6 +5,7 @@ import Slider from '@mui/material/Slider';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
+import LoadingComponent from '../../components/loadingComponent/LoadingComponent';
 
 const TemperatureComponent = ({loc}) => {
   
@@ -16,6 +17,7 @@ const TemperatureComponent = ({loc}) => {
   const [greenhouse,setGreenhouse] = useState();
   const [counter,setCounter] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const updateTemperatureFromWidget = async ()=>{
     try{
@@ -54,6 +56,7 @@ const TemperatureComponent = ({loc}) => {
             setGreenhouse(res.data);
             setTemperature(res.data.temperature);
             setValue(res.data.temperature.temp);
+            setLoading(true);
           }).catch(function (err) {
             console.log("TempWidgetFetchingError",err);
           })
@@ -62,7 +65,11 @@ const TemperatureComponent = ({loc}) => {
   },[loc,counter]);
   return (
     <div className='widgetComponent'>
-        <div className="widgetComponentContainer">
+      {
+        loading ? 
+        (
+          <>
+          <div className="widgetComponentContainer">
             <div className='componentTitleDiv'>
               <span>TEMPERATURE</span>
             </div>
@@ -71,7 +78,7 @@ const TemperatureComponent = ({loc}) => {
                 <Slider value={value} onChange={handleChange} onMouseUp={updateTemperatureFromWidget}  min={10} max={45} aria-label="Default" valueLabelDisplay="auto" />
               </div>
               <div className='widgetComponentButtonHolderDiv'>
-                <Button onClick={updateTemperatureFromWidget2} variant="contained">AUTO {temperature.auto ? 'TRUE' : 'FALSE'}</Button>
+                <Button onClick={updateTemperatureFromWidget2} variant="contained">AUTO {temperature.auto ? 'ON' : 'OFF'}</Button>
               </div>
             </div>
             <div className='componentDataDiv'>
@@ -79,6 +86,11 @@ const TemperatureComponent = ({loc}) => {
             </div>
         </div>
         {errorMessage && <Alert variant="filled" severity="success">{errorMessage}</Alert>  }
+          </>
+        ) 
+        : 
+        (<div className='loadingComponentDiv'><LoadingComponent /></div>)
+      }
     </div>
   )
 }

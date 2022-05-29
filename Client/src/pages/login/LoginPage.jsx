@@ -45,8 +45,8 @@ const LoginPage = () => {
                 <input onChange={(e)=>setUsername(e.target.value)} className='inputEmail' type='text' placeholder='Username' />
                 <input onChange={(e)=>setPassword(e.target.value)} className='inputPassword' type='password' placeholder='Password' />
                 <button className="loginButton" type="submit">Login</button>
-                <span className='registerLink'>Dont have account? </span>
-                <Link to='/register'><span className='registerLink2'>REGISTER </span></Link>
+                {/*<span className='registerLink'>Dont have account? </span>*/}
+                {/*<Link to='/register'><span className='registerLink2'>REGISTER </span></Link>*/}
             </form>
           {errorMessage && <Alert variant="filled" severity="error">{errorMessage}</Alert>  }
         </div>

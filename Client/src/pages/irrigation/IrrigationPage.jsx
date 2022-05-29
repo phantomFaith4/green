@@ -8,9 +8,11 @@ import { useEffect, useState } from 'react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import './irrigationPage.css';
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
 
 const IrrigationPage = () => {
 
+  const [errorMessage, setErrorMessage] = useState('');
   const [location, setLocation] = useState('');
   const [index, setIndex] = useState(0);
   const [checked, setChecked] = useState(false);
@@ -44,6 +46,10 @@ const IrrigationPage = () => {
         date:'',
       });
       setCounter(counter+1);
+      setErrorMessage(`Irrigation changes saved`);
+      setTimeout(()=> {
+        setErrorMessage()
+      }, 3000);
     }catch(err){
       console.log("updateIrrigatonFromPageErr",err);
     }
@@ -94,6 +100,7 @@ const IrrigationPage = () => {
                   <div className='temperaturePageSaveButtonDiv'>
                     <Button onClick={updateIrrigationFromPage} variant="contained">SAVE</Button>
                   </div>
+                  {errorMessage && <Alert variant="filled" severity="success">{errorMessage}</Alert>  }
                 </div>
               </div>
               <div className='leftDownDiv'>

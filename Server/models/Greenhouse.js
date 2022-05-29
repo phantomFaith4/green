@@ -53,7 +53,11 @@ const GreenhouseSchema = new mongoose.Schema({
     owner:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
-    }
+    },
+    notification:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Notification',
+    }],
 },
 {timestamps:true}
 );

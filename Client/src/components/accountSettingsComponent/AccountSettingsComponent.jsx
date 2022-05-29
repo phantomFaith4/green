@@ -9,20 +9,23 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-
+import { Buffer } from 'buffer';
 
 const AccountSettingsComponent = () => {
 
+  const [mimeType_d,setMimeType] = useState('');
+  const [b64_d,setB64] = useState('');
   const [open, setOpen] = useState(false);
   const [name,setName] = useState();
   const [lastname,setLastname] = useState();
   const [email,setEmail] = useState();
   const [phone,setPhone] = useState();
   const [user,setUser] = useState({});
-  const [file,setFile] = useState(null);
+  const [counter,setCounter] = useState({});
+
   const handleClickOpen = () => {
     setOpen(true);
-  };
+  }; 
   const handleClose = () => {
       setOpen(false);
   };
@@ -46,27 +49,34 @@ const AccountSettingsComponent = () => {
       try{
         const res = await axios.get(`/api/user/${userId}`);
         setUser(res.data);
+        setMimeType(res.data.image.contentType);
+        setB64(new Buffer.from(res.data.image.data.data).toString('base64'));
       }catch(err){
 
       }
     }
     fetch()
-  },[open,]);
+  },[open,counter]);
   
   const onImgUpload = async(e) => {
+    const userId = JSON.parse(localStorage.getItem('user'))._id;
     const data = new FormData();
     const filename = Date.now()+ e.target.files[0].name;
     data.append("name",filename);
     data.append("file",e.target.files[0]);
-    console.log("DataTest=>",data);
+    try{
+      await axios.post(`/api/uploadPhoto/${userId}`,data);
+      setCounter(counter+1);
+    }catch(err){
+      console.log("errorOnImageUploadAPI_CALL",err);
+    }
+
   }
-
-
   return (
     <div className='accountSettingsComponent'>
         <div className="accountSettingsComponentContainer">
           <div className="profileImageDiv">
-            <img className='profileImage' src={'https://qph.cf2.quoracdn.net/main-qimg-965b11ec95106e64d37f5c380802c305-lq'} alt='' />
+            <img className='profileImage' src={`data:${mimeType_d};base64,${b64_d}`} alt='' />
             <form>
               <label for="profileImg">
                 <div className='editIconDiv'>

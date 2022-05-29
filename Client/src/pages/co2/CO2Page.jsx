@@ -33,10 +33,6 @@ const CO2Page = () => {
     }else{
       setFan1(false);
     }
-    setErrorMessage(`Fan#1 switched: ${fan1 ? 'OFF' : 'ON'}`);
-      setTimeout(()=> {
-        setErrorMessage()
-      }, 3000);
   };
   const handleChangeFan2 = () => {
     if(fan2 === false){
@@ -44,10 +40,6 @@ const CO2Page = () => {
     }else{
       setFan2(false);
     }
-    setErrorMessage(`Fan#2 switched: ${fan2 ? 'OFF' : 'ON'}`);
-      setTimeout(()=> {
-        setErrorMessage()
-      }, 3000);
   };
   const updateCO2FromPage = async ()=>{
     try{
@@ -82,22 +74,8 @@ const CO2Page = () => {
      };  
   fetch();
   },[counter]);
-  const handleButton = ()=>{
-    auto ? setAuto(false) : setAuto(true);
-    setErrorMessage(`Automatic CO2 regulation switched: ${auto ? 'OFF' : 'ON'}`);
-      setTimeout(()=> {
-        setErrorMessage()
-      }, 3000);
-  }
-  const handleChange = (event, newValue)=>{
-    setValue(newValue);
-  };
-  const sliderAlert = ()=>{
-    setErrorMessage(`CO2 fan speed changed to : ${value} RPM`);
-    setTimeout(()=> {
-      setErrorMessage()
-    }, 3000);
-  }
+  const handleButton = ()=>{ auto ? setAuto(false) : setAuto(true);}
+  const handleChange = (event, newValue)=>{setValue(newValue);};
   return (
     <div className='accountPage'>
         <TopbarComponent getData={getName} />
@@ -110,7 +88,7 @@ const CO2Page = () => {
                     <span>CO2 OPERATIONS</span>
                   </div>
                   <div className='temperaturePageSliderDiv'>
-                    <Slider onMouseUp={sliderAlert} value={value} onChange={handleChange} min={20} max={200} aria-label="Default" valueLabelDisplay="auto" />
+                    <Slider value={value} onChange={handleChange} min={20} max={200} aria-label="Default" valueLabelDisplay="auto" />
                   </div>
                   <div className='co2PageFanSwitch'>
                   <FormControlLabel  value="start" control={<Switch onClick={handleChangeFan1} checked={fan1} color="primary" />} label="Fan #1" labelPlacement="start" />

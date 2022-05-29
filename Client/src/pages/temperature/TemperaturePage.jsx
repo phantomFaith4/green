@@ -7,9 +7,11 @@ import Button from '@mui/material/Button';
 import Slider from '@mui/material/Slider';
 import { useEffect,useState } from 'react';
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
 
 const TemperaturePage = () => {
 
+  const [errorMessage, setErrorMessage] = useState('');
   const [location, setLocation] = useState('');
   const [index, setIndex] = useState(0);
   const getName = async (location,index) =>{
@@ -29,6 +31,10 @@ const TemperaturePage = () => {
         date:'',
       });
       setCounter(counter+1);
+      setErrorMessage(`Temperature changes saved`);
+      setTimeout(()=> {
+        setErrorMessage()
+      }, 3000);
     }catch(err){
       console.log("ErrorUpdatingTempFromPage",err);
     }
@@ -73,6 +79,7 @@ const TemperaturePage = () => {
                   <div className='temperaturePageSaveButtonDiv'>
                     <Button onClick={updateTemperatureFromPage} variant="contained">SAVE</Button>
                   </div>
+                  {errorMessage && <Alert variant="filled" severity="success">{errorMessage}</Alert>  }
                 </div>
               </div>
               <div className='leftDownDiv temperaturePageLeftDown'>

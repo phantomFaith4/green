@@ -26,6 +26,7 @@
     text-align: center;
     cursor: pointer;
     border: 3px solid #062743;
+    color: white;
 }
 .userInfoDiv{
     display: flex;

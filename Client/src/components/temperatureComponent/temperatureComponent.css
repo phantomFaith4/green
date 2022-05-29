@@ -5,6 +5,12 @@
     border-radius: 15px;
     background-color: white;
 }
+.widgetComponent > .loadingComponentDiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40%;
+}
 .widgetComponentContainer{
     display: flex;
     align-items: center;

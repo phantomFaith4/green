@@ -3,9 +3,11 @@ import Button from '@mui/material/Button';
 import { useEffect,useState } from 'react';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
+import LoadingComponent from '../../components/loadingComponent/LoadingComponent';
 
 const CO2Component = ({loc}) => {
 
+  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [greenhouse,setGreenhouse] = useState();
   const [counter,setCounter] = useState(0);
@@ -50,6 +52,7 @@ const CO2Component = ({loc}) => {
       await axios.get(`/api/greenhouse/name/${loc[0].length > 0  ? loc[0] : loc[1]}`).then(function (res) {
         setGreenhouse(res.data);
         setCO2(res.data.co2);
+        setLoading(true);
       }).catch(function (err) {
         console.log("CO2WidgetFetchingError",err);
       })
@@ -58,24 +61,31 @@ const CO2Component = ({loc}) => {
   },[loc,counter]);
 
   return (
-    <div>
         <div className='widgetComponent'>
-        <div className="widgetComponentContainer">
+          {
+            loading ?
+            (
+              <>
+                <div className="widgetComponentContainer">
             <div className='componentTitleDiv'>
               <span>CO2</span>
             </div>
             <div className='componentOperationsDiv'>
               <div className='widgetComponentButtonHolderDiv'>
-                <Button onClick={updateCO2WidgetRun} variant="contained">RUN {CO2.run ? 'TRUE' : 'FALSE'}</Button>
-                <Button onClick={updateCO2WidgetAuto} variant="contained">AUTO {CO2.auto ? 'TRUE' : 'FALSE'}</Button>
+                <Button onClick={updateCO2WidgetRun} variant="contained">RUN {CO2.run ? 'ON' : 'OFF'}</Button>
+                <Button onClick={updateCO2WidgetAuto} variant="contained">AUTO {CO2.auto ? 'ON' : 'OFF'}</Button>
               </div>
             </div>
             <div className='componentDataDiv'>
               <span className='widgetComponetDataValueSpan'>{'600'} PPM</span>
             </div>
         </div>
-      {errorMessage && <Alert variant="filled" severity="success">{errorMessage}</Alert>  }
-    </div>
+      {errorMessage && <Alert variant="filled" severity="success">{errorMessage}</Alert>}
+              </>
+            )
+            :
+            (<div className='loadingComponentDiv'><LoadingComponent /></div>)
+          }
     </div>
   )
 }

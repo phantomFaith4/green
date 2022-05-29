@@ -5,9 +5,11 @@ import Button from '@mui/material/Button';
 import Slider from '@mui/material/Slider';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import Alert from '@mui/material/Alert';
 
 const LightPage = () => {
 
+  const [errorMessage, setErrorMessage] = useState('');
   const [location, setLocation] = useState('');
   const [index, setIndex] = useState(0);
   const [greenhouse,setGreenhouse] = useState([]);
@@ -32,12 +34,16 @@ const LightPage = () => {
         date:'',
       });
       setCounter(counter+1);
+      setErrorMessage(`Light changes saved`);
+      setTimeout(()=> {
+        setErrorMessage()
+      }, 3000);
     }catch(err){
       console.log("UpdateLightFromPageError=>",err);
     }
   };
   const handleButton = ()=>{auto ? setAuto(false) : setAuto(true);}
-  const handleButton2 = ()=>{run ? setRun(false) : setRun(true);}
+  const handleButton2 = ()=>{run ? setRun(false) : setRun(true); }
   useEffect(()=>{
     const fetch = async ()=>{
       await axios.get(`/api/greenhouse/all/${JSON.parse(localStorage.getItem('user'))._id}`).then(function (res) {
@@ -77,6 +83,7 @@ const LightPage = () => {
                   <div className='temperaturePageSaveButtonDiv'>
                     <Button onClick={updateLightFromPage} variant="contained">SAVE</Button>
                   </div>
+                  {errorMessage && <Alert variant="filled" severity="success">{errorMessage}</Alert>  }
                 </div>
               </div>
               <div className='leftDownDiv'>

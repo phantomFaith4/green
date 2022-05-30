@@ -52,3 +52,14 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #555; 
 }
+.notificationList{
+    list-style: none;
+    padding: 0;
+    list-style-type: none;
+    display: flex; 
+    flex-direction: column-reverse;
+    width: 100%;
+}
+.notificationListItem{
+  flex: 0 0 auto
+}

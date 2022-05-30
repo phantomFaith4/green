@@ -1,20 +1,15 @@
 import React from 'react'
 import './notificationPageSlot.css';
 
-const NotificationPageSlot = () => {
+const NotificationPageSlot = ({notification}) => {
   return (
     <div className='notificationPageSlot'>
         <div className='notificationPageSlotMessageDiv'>
-            <span>Lorem ipsum dolor sit amet consectetur 
-                adipisicing elit. Fugit vero quas neque 
-                quo hic quaerat facere laudantium provident
-                 velit, iusto consequuntur, ab et dolor 
-                 perferendis quod magni! Ut, architecto qui?
-            </span>
+            <span>{notification.text}</span>
         </div>
         <div className='notificationPageSlotInfoDiv'>
-            <span>Location</span>
-            <span>DateTime</span>
+            <span>{notification.location}</span>
+            <span>{new Date(notification.createdAt).toDateString()}, {new Date(notification.createdAt).getHours() + ':' +new Date(notification.createdAt).getMinutes() }</span>
         </div>
     </div>
   )

@@ -2,6 +2,8 @@ import React from 'react'
 import './topbarComponent.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 
 const TopbarComponent = (props) => {
   
@@ -20,7 +22,15 @@ const TopbarComponent = (props) => {
   },[]);
   return (
     <div className='topbarComponent'>
-        <div className="topbarContainer">
+      {
+        JSON.parse(localStorage.getItem('user')) === null ?
+        (
+          <>
+          </>
+        )
+        :
+        (
+          <div className="topbarContainer">
           <select onChange={(e)=>props.getData(e.target.value,e.target.selectedIndex)} className="custom-select">
             {
                 greenhouse.map(g=>
@@ -30,6 +40,8 @@ const TopbarComponent = (props) => {
             }
           </select>
         </div>
+        )
+      }
     </div>
   )
 }

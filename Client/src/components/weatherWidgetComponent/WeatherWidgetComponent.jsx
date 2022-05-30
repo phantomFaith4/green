@@ -18,13 +18,11 @@ const WeatherWidgetComponent = ({loc}) => {
     }
     const [weather,setWeather] = useState({});
     useEffect(()=>{
-      console.log("Lokacija=>",loc);
       getDateTime();
       const fetch = async ()=>{
         try{
           const res = await axios.get(`/api/weather/${loc}`);
           setWeather(res.data);
-          console.log("weatherData=>",res.data);
         }catch(err){
           console.log("ErrorFetchingWeatherData",err);
         }

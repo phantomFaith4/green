@@ -10,6 +10,8 @@ import TextField from '@mui/material/TextField';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import { Buffer } from 'buffer';
+import LoadingComponent from '../../components/loadingComponent/LoadingComponent';
+import { Link } from 'react-router-dom';
 
 const AccountSettingsComponent = () => {
 
@@ -22,6 +24,7 @@ const AccountSettingsComponent = () => {
   const [phone,setPhone] = useState();
   const [user,setUser] = useState({});
   const [counter,setCounter] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,13 +47,16 @@ const AccountSettingsComponent = () => {
     };
   };
   useEffect(()=>{
-    const userId = JSON.parse(localStorage.getItem('user'))._id;
     const fetch = async ()=>{
       try{
-        const res = await axios.get(`/api/user/${userId}`);
-        setUser(res.data);
-        setMimeType(res.data.image.contentType);
-        setB64(new Buffer.from(res.data.image.data.data).toString('base64'));
+        if(JSON.parse(localStorage.getItem('user')) !== null){
+          const userId = JSON.parse(localStorage.getItem('user'))._id;
+          const res = await axios.get(`/api/user/${userId}`);
+          setUser(res.data);
+          setMimeType(res.data.image.contentType);
+          setB64(new Buffer.from(res.data.image.data.data).toString('base64'));
+          setLoading(true);
+        }
       }catch(err){
 
       }
@@ -74,60 +80,83 @@ const AccountSettingsComponent = () => {
   }
   return (
     <div className='accountSettingsComponent'>
-        <div className="accountSettingsComponentContainer">
-          <div className="profileImageDiv">
-            <img className='profileImage' src={`data:${mimeType_d};base64,${b64_d}`} alt='' />
-            <form>
-              <label for="profileImg">
-                <div className='editIconDiv'>
-                  <i className="fa-solid fa-pen"></i>
-                  <input onChange={onImgUpload} type="file" id="profileImg" name="profileImg" accept="image/png, image/jpeg" />
-                </div>
-              </label>
-            </form>
-          </div>
-          <div className='userInfoDiv'>
-            <div>
-              <div className='nameHolderDiv'>
-                <span>{user.name}</span>
+      {
+        JSON.parse(localStorage.getItem('user')) === null ?
+        (
+          <>
+            <p>RESTRICTED ACCESS</p>
+            <Link to='/login'>LOGIN</Link>
+          </>
+        )
+        :
+        (
+          <>
+          {
+            loading ?
+            (
+              <>
+              <div className="accountSettingsComponentContainer">
+              <div className="profileImageDiv">
+                <img className='profileImage' src={`data:${mimeType_d};base64,${b64_d}`} alt='' />
+                <form>
+                  <label for="profileImg">
+                    <div className='editIconDiv'>
+                      <i className="fa-solid fa-pen"></i>
+                      <input onChange={onImgUpload} type="file" id="profileImg" name="profileImg" accept="image/png, image/jpeg" />
+                    </div>
+                  </label>
+                </form>
               </div>
-              <div className='nameHolderDiv'>
-                <span>{user.lastname}</span>
+              <div className='userInfoDiv'>
+                <div>
+                  <div className='nameHolderDiv'>
+                    <span>{user.name}</span>
+                  </div>
+                  <div className='nameHolderDiv'>
+                    <span>{user.lastname}</span>
+                    </div>
                 </div>
+                <div>
+                  <div className='nameHolderDiv'>
+                    <span>{user.email}</span>
+                    </div>
+                  <div className='nameHolderDiv'>
+                  <span>{user.phone}</span>
+                    </div>
+                </div>
+              </div>
+              <div onClick={handleClickOpen} className='editSettingsDiv'>
+                <div className='editSettingsButton'>
+                  <i className="fa-solid fa-pen"></i>
+                </div>
+              </div>
             </div>
             <div>
-              <div className='nameHolderDiv'>
-                <span>{user.email}</span>
-                </div>
-              <div className='nameHolderDiv'>
-              <span>{user.phone}</span>
-                </div>
+            <Dialog open={open} onClose={handleClose}>
+              <DialogTitle>Add User info</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                    Fill information about User you want add or edit
+                </DialogContentText>
+                <TextField defaultValue={user.name} onChange={(e)=>setName(e.target.value)} autoFocus margin="dense" id="name" label="Name" type="text" fullWidth variant="standard" />
+                <TextField defaultValue={user.lastname} onChange={(e)=>setLastname(e.target.value)} autoFocus margin="dense" id="lastname" label="Lastname" type="text" fullWidth variant="standard" />
+                <TextField defaultValue={user.email} onChange={(e)=>setEmail(e.target.value)} autoFocus margin="dense" id="email" label="Email address" type="email" fullWidth variant="standard" />
+                <TextField defaultValue={user.phone} onChange={(e)=>setPhone(e.target.value)} autoFocus margin="dense" id="phone" label="Phone number" type="phone" fullWidth variant="standard" />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={updateUser}>Edit</Button>
+              </DialogActions>
+            </Dialog>
             </div>
-          </div>
-          <div onClick={handleClickOpen} className='editSettingsDiv'>
-            <div className='editSettingsButton'>
-              <i className="fa-solid fa-pen"></i>
-            </div>
-          </div>
-        </div>
-        <div>
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>Add User info</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-                Fill information about User you want add or edit
-            </DialogContentText>
-            <TextField defaultValue={user.name} onChange={(e)=>setName(e.target.value)} autoFocus margin="dense" id="name" label="Name" type="text" fullWidth variant="standard" />
-            <TextField defaultValue={user.lastname} onChange={(e)=>setLastname(e.target.value)} autoFocus margin="dense" id="lastname" label="Lastname" type="text" fullWidth variant="standard" />
-            <TextField defaultValue={user.email} onChange={(e)=>setEmail(e.target.value)} autoFocus margin="dense" id="email" label="Email address" type="email" fullWidth variant="standard" />
-            <TextField defaultValue={user.phone} onChange={(e)=>setPhone(e.target.value)} autoFocus margin="dense" id="phone" label="Phone number" type="phone" fullWidth variant="standard" />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={updateUser}>Edit</Button>
-          </DialogActions>
-        </Dialog>
-        </div>
+              </>
+            )
+            :
+            (<div className='accountSettingsLoaderDiv'><LoadingComponent /></div>)
+          }
+          </>
+        )
+      }
     </div>
   )
 }

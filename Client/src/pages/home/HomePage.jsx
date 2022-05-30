@@ -10,37 +10,53 @@ import HumidityComponent from '../../components/humidityComponent/HumidityCompon
 import NotificationComponent from '../../components/notificationComponent/NotificationComponent';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
-
+import { Link } from 'react-router-dom';
 const HomePage = () => {
 
   const [location, setLocation] = useState('');
   const [defaultLocation,setDefaultLocation] = useState('');
-
+  const [index,setIndex] = useState(0);
   const getName = async (location,index) =>{
     setLocation(location);
+    setIndex(index);
   } 
   useEffect(()=>{
-    const userId = JSON.parse(localStorage.getItem('user'))._id ;
     const getFirstGreenhouse = async ()=>{
-      const res = await axios.get(`/api/user/${userId}`)
-      const res2 = await axios.get(`/api/greenhouse/${res.data.list[0]}`);
-      setDefaultLocation(res2.data.greenhouse);
+      if(JSON.parse(localStorage.getItem('user')) !== null){
+        const userId = JSON.parse(localStorage.getItem('user'))._id ;
+        const res = await axios.get(`/api/user/${userId}`)
+        const res2 = await axios.get(`/api/greenhouse/${res.data.list[0]}`);
+        setDefaultLocation(res2.data.greenhouse);
+      }
     };
     getFirstGreenhouse();
   },[]);
   
 return (
     <div className='homePage'>
-        <TopbarComponent getData={getName} />
+      {JSON.parse(localStorage.getItem('user')) === null ? 
+        (
+          <>
+            <p>RESTRICTED ACCESS</p>
+            <Link to='/login'>LOGIN</Link>
+          </>
+        )
+        :
+        (
+          <>
+            <TopbarComponent getData={getName} />
         <Sidebar />
         <div className="homePageContainer">
             <TemperatureComponent loc={[location,defaultLocation]} />
             <WaterComponent loc={[location,defaultLocation]}/>
-            <NotificationComponent />
+            <NotificationComponent index={index}/>
             <HumidityComponent loc={[location,defaultLocation]}/>
             <LightComponent loc={[location,defaultLocation]}/>
             <CO2Component loc={[location,defaultLocation]}/>
-        </div>
+        </div>   
+          </>
+        )
+      }
     </div>
   )
 }

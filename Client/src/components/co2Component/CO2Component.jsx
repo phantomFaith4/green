@@ -4,6 +4,7 @@ import { useEffect,useState } from 'react';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import LoadingComponent from '../../components/loadingComponent/LoadingComponent';
+import * as notificationOperation from '../functionsFolder/pushNewNotifications';
 
 const CO2Component = ({loc}) => {
 
@@ -29,6 +30,7 @@ const CO2Component = ({loc}) => {
       setTimeout(()=> {
         setErrorMessage()
       }, 3000);
+      notificationOperation.newNotification(`CO2 fans switched : ${!CO2.run ? 'ON' : 'OFF'}`, greenhouse.greenhouse, greenhouse._id);
     }catch(err){
       console.log("CO2WidgetUpdateErrorRun",err);
     }
@@ -43,6 +45,7 @@ const CO2Component = ({loc}) => {
       setTimeout(()=> {
         setErrorMessage()
       }, 3000);
+      notificationOperation.newNotification(`Automatic CO2 regulation switched to: ${!CO2.auto ? 'ON' : 'OFF'}`, greenhouse.greenhouse, greenhouse._id);
     }catch(err){
       console.log("CO2WidgetUpdateErrorAuto",err);
     }

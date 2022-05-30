@@ -10,9 +10,15 @@ import { useEffect, useState } from 'react';
 import FanComponent from '../../components/FanComponent/FanComponent';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
+import TimeKeeper from 'react-timekeeper';
+import DatePicker from 'sassy-datepicker';
+import * as notificationOperation from '../../components/functionsFolder/pushNewNotifications';
+import { Link } from 'react-router-dom';
 
 const CO2Page = () => {
 
+  const [dateTime, setDateTime] = useState('2022-May-22');
+  const [time, setTime] = useState('12:34pm'); 
   const [errorMessage, setErrorMessage] = useState('');
   const [location, setLocation] = useState('');
   const [index, setIndex] = useState(0);
@@ -22,7 +28,8 @@ const CO2Page = () => {
   const [auto,setAuto] = useState(false);
   const [fan1, setFan1] = useState(false);
   const [fan2, setFan2] = useState(false);
-  
+  const [upDate ,setUpDate] = useState(false);
+
   const getName = async (location,index) =>{
     setLocation(location);
     setIndex(index);
@@ -48,37 +55,64 @@ const CO2Page = () => {
         fan2:fan2,
         speed:value,
         auto:auto,
-        time:'',
-        date:'',
+        time:time,
+        date:dateTime,
       });
       setErrorMessage(`CO2 changes saved`);
       setTimeout(()=> {
         setErrorMessage()
       }, 3000);
+      notificationOperation.newNotification(`Fan speed changed to: ${value} RPM.
+      Fan#1 is ${fan1 ? 'ON' : 'OFF'}. Fan#2 is ${fan2 ? 'ON' : 'OFF'}.
+       Automatic mode is ${auto ? 'ON' : 'OFF'}`, greenhouse[index].greenhouse, greenhouse[index]._id);
     }catch(err){
       console.log("UpdateCO2FromPageError",err);
     }
   };
+  const onChangeDate = (date) => {
+    const testDate = date.toString();
+    const arr = testDate.split(' ')
+    setDateTime(`${arr[3]}-${arr[1]}-${arr[2]}`);
+  };
   useEffect(()=>{
     const fetch = async ()=>{
-      await axios.get(`/api/greenhouse/all/${JSON.parse(localStorage.getItem('user'))._id}`).then(function (res) {
-        console.log(res.data);
+      if(JSON.parse(localStorage.getItem('user')) !== null){
+        await axios.get(`/api/greenhouse/all/${JSON.parse(localStorage.getItem('user'))._id}`).then(function (res) {
+          console.log(res.data);
         setGreenhouse(res.data);
         setValue(res.data[index].co2.speed);
         setFan1(res.data[index].co2.fan1);
         setFan2(res.data[index].co2.fan2);
         setAuto(res.data[index].co2.auto);
-       }).catch(function (err) {
-         console.log("TempWidgetFetchingError",err);
-       })
-     };  
+        setTime(res.data[index].co2.time);
+        setDateTime(res.data[index].co2.date ? res.data[index].co2.date : '2022-May-21');
+        setUpDate(false);
+        setTimeout(()=> {
+          setUpDate(true); 
+        }, 100); 
+      }).catch(function (err) {
+        console.log("TempWidgetFetchingError",err);
+      })
+    };  
+  }
   fetch();
   },[counter]);
   const handleButton = ()=>{ auto ? setAuto(false) : setAuto(true);}
   const handleChange = (event, newValue)=>{setValue(newValue);};
   return (
     <div className='accountPage'>
-        <TopbarComponent getData={getName} />
+      {
+        JSON.parse(localStorage.getItem('user')) === null ?
+        (
+          <>
+            <p>RESTRICTED ACCESS</p>
+            <Link to='/login'>LOGIN</Link>
+          </>
+        )
+        :
+        (
+          <>
+           <TopbarComponent getData={getName} />
         <SidebarComponent />
         <div className="accountPageContainer">
         <div className='leftPartPage'>
@@ -115,10 +149,21 @@ const CO2Page = () => {
               </div>
             </div>
             <div className='rightPartPage'>
-              <h1>Right</h1>
-              
+            <div className='rightUpPart'>
+                <div className='timeKeeperDiv'>
+                  <TimeKeeper hour24Mode={true} switchToMinuteOnHourSelect={true} time={time} onChange={(newTime) => setTime(newTime.formatted12)} />
+                </div>
+              </div>
+              <div className='rightDownPart'>
+                <div className='datePickerDiv'>
+                  {upDate && <DatePicker selected={new Date(dateTime)} onChange={onChangeDate} />}
+                </div>
+              </div>
             </div>
         </div>
+          </>
+        )
+      }
     </div>
   )
 }

@@ -22,7 +22,7 @@ const GreenhouseSchema = new mongoose.Schema({
     temperature:{
         temp:{type:Number,},
         auto:{type:Boolean, default:false,},
-        time:{type:String,},
+        time:{type:String,default:'12:34pm'},
         date:{type:String,},
     },
     water:{
@@ -31,7 +31,7 @@ const GreenhouseSchema = new mongoose.Schema({
         watering:{type:Boolean,default:false},
         auto:{type:Boolean,default:false},
         fertilizer:{type:Boolean,default:false},
-        time:{type:String,},
+        time:{type:String,default:'12:34pm'},
         date:{type:String,},
     },
     co2:{
@@ -40,14 +40,14 @@ const GreenhouseSchema = new mongoose.Schema({
         speed:{type:Number},
         run:{type:Boolean,default:false},
         auto:{type:Boolean,default:false},
-        time:{type:String,},
+        time:{type:String,default:'12:34pm'},
         date:{type:String,},
     },
     light:{
         intensity:{type:Number,},
         run:{type:Boolean,default:false},
         auto:{type:Boolean,default:false},
-        time:{type:String,},
+        time:{type:String,default:'12:34pm'},
         date:{type:String,},
     },
     owner:{

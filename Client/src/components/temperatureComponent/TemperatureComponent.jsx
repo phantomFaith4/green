@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import LoadingComponent from '../../components/loadingComponent/LoadingComponent';
+import * as notificationOperation from '../functionsFolder/pushNewNotifications';
 
 const TemperatureComponent = ({loc}) => {
   
@@ -32,6 +33,7 @@ const TemperatureComponent = ({loc}) => {
       setTimeout(()=> {
         setErrorMessage()
       }, 3000);
+      notificationOperation.newNotification(`Temperature changed to: ${value} °C`, greenhouse.greenhouse, greenhouse._id);
   };
   const updateTemperatureFromWidget2 = async ()=>{
     try{
@@ -46,6 +48,7 @@ const TemperatureComponent = ({loc}) => {
       setTimeout(()=> {
         setErrorMessage()
       }, 3000);
+      notificationOperation.newNotification(`Automatic temperature regulation is switched: ${!temperature.auto ? 'ON' : 'OFF'}`, greenhouse.greenhouse, greenhouse._id);
   };
   const handleChange = (event, newValue)=>{
     setValue(newValue);
@@ -82,7 +85,7 @@ const TemperatureComponent = ({loc}) => {
               </div>
             </div>
             <div className='componentDataDiv'>
-              <span className='widgetComponetDataValueSpan'>{temperature.temp} °C</span>
+              <span className='widgetComponetDataValueSpan'>{temperature.temp ? temperature.temp + 'C°' : 'NOT_SET'} </span>
             </div>
         </div>
         {errorMessage && <Alert variant="filled" severity="success">{errorMessage}</Alert>  }

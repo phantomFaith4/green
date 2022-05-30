@@ -9,19 +9,20 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import LoadingComponent from '../../components/loadingComponent/LoadingComponent';
 
 const GreenhouseSettingsComponent = () => {
 
     const [greenhouse,setGreenhouse ] = useState([]);
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(false);
-
     const [name,setName] = useState('')
     const [content,setContent] = useState('')
     const [description,setDescription] = useState('')
     const [size,setSize] = useState(0)
     const [location,setLocation] = useState('')
     const [deleteId ,setDeleteId] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const addNewGreenhouse = async ()=>{
         try{
@@ -52,6 +53,7 @@ const GreenhouseSettingsComponent = () => {
             try{
                 const res = await axios.get(`/api/greenhouse/all/${JSON.parse(localStorage.getItem('user'))._id}`);
                 setGreenhouse(res.data);
+                setLoading(true);
             }catch(err){
                 console.log("GreenhouseSettingErrFetch=>",err);
             }
@@ -75,7 +77,11 @@ const GreenhouseSettingsComponent = () => {
     };
   return (
     <div className='greenhouseSettingsComponent'>
-        <div className='tableDiv'>
+        {
+            loading ?
+            (
+                <>
+                 <div className='tableDiv'>
             <table className='greenhouseTable'>
                 <thead>
                 <tr>
@@ -146,6 +152,11 @@ const GreenhouseSettingsComponent = () => {
                     </DialogActions>
             </Dialog>
         </div>
+                </>
+            )
+            :
+            (<div className='accountSettingsLoaderDiv'><LoadingComponent /></div>)
+        }
     </div>
   )
 }

@@ -1,16 +1,16 @@
 import React from 'react'
 import './notificationSlotComponent.css';
 
-const NotificationSlotComponent = () => {
+const NotificationSlotComponent = ({notification}) => {
   return (
     <div className='notificationSlotComponent'>
         <div className='notificationSlotContainer'>
           <div className='notificationMessageDiv'>
-            <span>This is notification temperature up</span>
+            <span>{notification.text}</span>
           </div>
           <div className='notificationInfoDiv'>
-            <span>Location</span>
-            <span>Date time</span>
+            <span>{notification.location}</span>
+            <span>{new Date(notification.createdAt).toDateString()}, {new Date(notification.createdAt).getHours() + ':' +new Date(notification.createdAt).getMinutes() }</span>
           </div>
         </div>
     </div>

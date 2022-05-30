@@ -4,6 +4,7 @@ import {useState, useEffect} from 'react';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import LoadingComponent from '../../components/loadingComponent/LoadingComponent';
+import * as notificationOperation from '../functionsFolder/pushNewNotifications';
 
 const LightComponent = ({loc}) => {
 
@@ -22,10 +23,11 @@ const LightComponent = ({loc}) => {
         run:!light.run,
       })
       setCounter(counter+1);
-      setErrorMessage(`Lighting switched to: ${!light.run ? 'ON' : 'OFF'}`);
+      setErrorMessage(`Lighting switched : ${!light.run ? 'ON' : 'OFF'}`);
       setTimeout(()=> {
         setErrorMessage()
       }, 3000);
+      notificationOperation.newNotification(`Lighting switched : ${!light.run ? 'ON' : 'OFF'}`, greenhouse.greenhouse, greenhouse._id);
     }catch(err){
       console.log("LightWidgetUpdateRun",err);
     }
@@ -40,6 +42,7 @@ const LightComponent = ({loc}) => {
       setTimeout(()=> {
         setErrorMessage()
       }, 3000);
+      notificationOperation.newNotification(`Automatic lighting regulation switched to: ${!light.auto ? 'ON' : 'OFF'}`, greenhouse.greenhouse, greenhouse._id);
     }catch(err){
       console.log("LightWidgetUpdateRun",err);
     }
@@ -74,7 +77,7 @@ const LightComponent = ({loc}) => {
               </div>
             </div>
             <div className='componentDataDiv'>
-              <span className='widgetComponetDataValueSpan'>{light.intensity} %</span>
+              <span className='widgetComponetDataValueSpan'>{light.intensity ? light.intensity + '%' : 'NOT_SET'}</span>
             </div>
         </div>
         {errorMessage && <Alert variant="filled" severity="success">{errorMessage}</Alert>  }

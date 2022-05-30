@@ -47,6 +47,8 @@ const LoginPage = () => {
                 <button className="loginButton" type="submit">Login</button>
                 {/*<span className='registerLink'>Dont have account? </span>*/}
                 {/*<Link to='/register'><span className='registerLink2'>REGISTER </span></Link>*/}
+                <p>Usernames: phantomUser, ernad</p>
+                <p>Passwords: phantomPass, ernad</p>
             </form>
           {errorMessage && <Alert variant="filled" severity="error">{errorMessage}</Alert>  }
         </div>

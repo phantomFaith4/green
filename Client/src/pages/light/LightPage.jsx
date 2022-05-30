@@ -6,9 +6,15 @@ import Slider from '@mui/material/Slider';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
+import TimeKeeper from 'react-timekeeper';
+import DatePicker from 'sassy-datepicker';
+import * as notificationOperation from '../../components/functionsFolder/pushNewNotifications';
+import { Link } from 'react-router-dom';
 
 const LightPage = () => {
 
+  const [dateTime, setDateTime] = useState(new Date());
+  const [time, setTime] = useState('12:34pm'); 
   const [errorMessage, setErrorMessage] = useState('');
   const [location, setLocation] = useState('');
   const [index, setIndex] = useState(0);
@@ -17,7 +23,8 @@ const LightPage = () => {
   const [value,setValue] = useState(0)
   const [auto,setAuto] = useState(false);
   const [run,setRun] = useState(false);
-  
+  const [upDate ,setUpDate] = useState(false);
+
   const getName = async (location,index) =>{
     setLocation(location);
     setIndex(index)
@@ -30,37 +37,62 @@ const LightPage = () => {
         intensity:value,
         auto:auto,
         run:run,
-        time:'',
-        date:'',
+        time:time,
+        date:dateTime,
       });
       setCounter(counter+1);
       setErrorMessage(`Light changes saved`);
       setTimeout(()=> {
         setErrorMessage()
       }, 3000);
+      notificationOperation.newNotification(`Light intensity changed to: ${value} %. Lights are ${run ? 'ON' : 'OFF'}. Automatic mode is ${auto ? 'ON' : 'OFF'}`, greenhouse[index].greenhouse, greenhouse[index]._id);
     }catch(err){
       console.log("UpdateLightFromPageError=>",err);
     }
   };
   const handleButton = ()=>{auto ? setAuto(false) : setAuto(true);}
   const handleButton2 = ()=>{run ? setRun(false) : setRun(true); }
+  const onChangeDate = (date) => {
+    const testDate = date.toString();
+    const arr = testDate.split(' ')
+    setDateTime(`${arr[3]}-${arr[1]}-${arr[2]}`);
+  };
   useEffect(()=>{
     const fetch = async ()=>{
-      await axios.get(`/api/greenhouse/all/${JSON.parse(localStorage.getItem('user'))._id}`).then(function (res) {
-        console.log(res.data);
+      if(JSON.parse(localStorage.getItem('user')) !== null){
+        await axios.get(`/api/greenhouse/all/${JSON.parse(localStorage.getItem('user'))._id}`).then(function (res) {
+          console.log(res.data);
         setGreenhouse(res.data);  
         setValue(res.data[index].light.intensity);
         setAuto(res.data[index].light.auto);
         setRun(res.data[index].light.run);
-       }).catch(function (err) {
+        setTime(res.data[index].light.time);
+        setDateTime(res.data[index].light.date ? res.data[index].light.date : '2022-May-21');
+        setUpDate(false);
+        setTimeout(()=> {
+          setUpDate(true); 
+        }, 100);
+      }).catch(function (err) {
          console.log("TempWidgetFetchingError",err);
-       })
+        })
      };  
-  fetch();
+    }
+    fetch();
   },[counter]);
   return (
     <div className='accountPage'>
-        <TopbarComponent  getData={getName}/>
+      {
+        JSON.parse(localStorage.getItem('user')) === null ?
+        (
+          <>
+            <p>RESTRICTED ACCESS</p>
+            <Link to='/login'>LOGIN</Link>
+          </>
+        )
+        :
+        (
+          <>
+          <TopbarComponent  getData={getName}/>
         <SidebarComponent />
         <div className="accountPageContainer">
         <div className='leftPartPage'>
@@ -90,9 +122,21 @@ const LightPage = () => {
               </div>
             </div>
             <div className='rightPartPage'>
-              <h1>Right</h1>
+            <div className='rightUpPart'>
+                <div className='timeKeeperDiv'>
+                  <TimeKeeper className={'testTime'} hour24Mode={true} switchToMinuteOnHourSelect={true} time={time} onChange={(newTime) => setTime(newTime.formatted12)} />
+                </div>
+              </div>
+              <div className='rightDownPart'>
+                <div className='datePickerDiv'>
+                  {upDate && <DatePicker selected={new Date(dateTime)} onChange={onChangeDate} />}
+                </div>
+              </div>
             </div>
         </div>
+          </>
+        )
+      }
     </div>
   )
 } 

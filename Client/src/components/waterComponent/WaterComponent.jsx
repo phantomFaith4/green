@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 import Alert from '@mui/material/Alert';
 import LoadingComponent from '../../components/loadingComponent/LoadingComponent';
+import * as notificationOperation from '../functionsFolder/pushNewNotifications';
 
 const WaterComponent = ({loc}) => {
 
@@ -27,6 +28,7 @@ const WaterComponent = ({loc}) => {
       setTimeout(()=> {
         setErrorMessage()
       }, 3000);
+      notificationOperation.newNotification(`Irrigation system switched: ${!irrigation.watering ? 'ON' : 'OFF'}`, greenhouse.greenhouse, greenhouse._id);
     }catch(err){
       console.log("ErrodUpdatingIrrigationFromWidget",err);
     }
@@ -41,6 +43,7 @@ const WaterComponent = ({loc}) => {
       setTimeout(()=> {
         setErrorMessage()
       }, 3000);
+      notificationOperation.newNotification(`Automatic irrigation system switched: ${!irrigation.auto ? 'ON' : 'OFF'}`, greenhouse.greenhouse, greenhouse._id);
     }catch(err){
       console.log("ErrodUpdatingIrrigationFromWidget",err);
     }
@@ -75,7 +78,7 @@ const WaterComponent = ({loc}) => {
               </div>
             </div>
             <div className='componentDataDiv'>
-              <span className='widgetComponetDataValueSpan'>{irrigation.percentage} %</span>
+              <span className='widgetComponetDataValueSpan'>{irrigation.percentage ? irrigation.percentage + '%' : 'NOT_SET'} </span>
             </div>
         </div>
         {errorMessage && <Alert variant="filled" severity="success">{errorMessage}</Alert>  }

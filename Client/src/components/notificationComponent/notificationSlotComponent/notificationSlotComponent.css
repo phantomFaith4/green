@@ -1,20 +1,23 @@
 .notificationSlotComponent{
     width: 90%;
-    height: 100px;
+    height: 115px;
     background-color: #74B49B;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     margin-bottom: 10px;
     margin-left: 10px;
     margin-right: 10px;
     border: 3px solid #062743;
-    border-radius: 10px;
+    border-radius: 15px;
 }
 .notificationMessageDiv{
     height: 65px;
     margin: 5px;
+    margin-bottom: 20px;
 }
 .notificationInfoDiv{
+    border-top: 2px solid #062743;
     display: flex;
     justify-content: space-between;
     margin-left: 5px;
